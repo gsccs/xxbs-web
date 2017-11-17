@@ -7,9 +7,7 @@
 	<artifactId>xxbs-web</artifactId>
 	<packaging>war</packaging>
 	<name>xxbs-web </name>
-	<description>酒泉移动政企客户部信息报送系统</description>
-	
-	
+	<description>移动政企客户部信息报送系统</description>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
