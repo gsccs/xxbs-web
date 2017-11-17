@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gsccs.cmcc.info.dao.IctprojectTMapper" >
+  <resultMap id="BaseResultMap" type="com.gsccs.cmcc.info.model.IctprojectT" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="corpname" property="corpname" jdbcType="VARCHAR" />
+    <result column="ispcode" property="ispcode" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="brief" property="brief" jdbcType="VARCHAR" />
+    <result column="buildcontent" property="buildcontent" jdbcType="VARCHAR" />
+    <result column="ussm" property="ussm" jdbcType="REAL" />
+    <result column="winnindate" property="winnindate" jdbcType="TIMESTAMP" />
+    <result column="signdate" property="signdate" jdbcType="TIMESTAMP" />
+    <result column="planstartdate" property="planstartdate" jdbcType="TIMESTAMP" />
+    <result column="planenddate" property="planenddate" jdbcType="TIMESTAMP" />
+    <result column="realstartdate" property="realstartdate" jdbcType="TIMESTAMP" />
+    <result column="realenddate" property="realenddate" jdbcType="TIMESTAMP" />
+    <result column="builddays" property="builddays" jdbcType="INTEGER" />
+    <result column="construction" property="construction" jdbcType="VARCHAR" />
+    <result column="planlandussm" property="planlandussm" jdbcType="REAL" />
+    <result column="planlanddate" property="planlanddate" jdbcType="TIMESTAMP" />
+    <result column="amuserid" property="amuserid" jdbcType="VARCHAR" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="cooper" property="cooper" jdbcType="VARCHAR" />
+    <result column="ordernum" property="ordernum" jdbcType="INTEGER" />
+    
+    <!--  -->
+     <result column="statusname" property="statusname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, corpname, ispcode, name, brief, buildcontent, ussm, winnindate, signdate, planstartdate, 
+    planenddate, realstartdate, realenddate, builddays, construction, planlandussm, planlanddate, 
+    amuserid, telephone, status, remark, cooper, ordernum
+  </sql>
+  
+  <sql id="Join_Column_List" >
+    statusname
+  </sql>
+  
+  <select id="selectPageByExample" resultMap="BaseResultMap" parameterType="com.gsccs.cmcc.info.model.IctprojectTExample" >
+    select *
+    from
+    ( select a.* ,b.title as statusname
+		from xxbs_ictproject a 
+		LEFT JOIN plat_dict_item b on a.status = b.id) as aa
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    order by winnindate desc
+    limit ${skip},${pageSize}
+  </select>
+  
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.gsccs.cmcc.info.model.IctprojectTExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from xxbs_ictproject
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from xxbs_ictproject
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from xxbs_ictproject
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gsccs.cmcc.info.model.IctprojectTExample" >
+    delete from xxbs_ictproject
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gsccs.cmcc.info.model.IctprojectT" >
+    insert into xxbs_ictproject (id, corpname, ispcode, 
+      name, brief, buildcontent, 
+      ussm, winnindate, signdate, 
+      planstartdate, planenddate, realstartdate, 
+      realenddate, builddays, construction, 
+      planlandussm, planlanddate, amuserid, 
+      telephone, status, remark, 
+      cooper, ordernum)
+    values (#{id,jdbcType=VARCHAR}, #{corpname,jdbcType=VARCHAR}, #{ispcode,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{brief,jdbcType=VARCHAR}, #{buildcontent,jdbcType=VARCHAR}, 
+      #{ussm,jdbcType=REAL}, #{winnindate,jdbcType=TIMESTAMP}, #{signdate,jdbcType=TIMESTAMP}, 
+      #{planstartdate,jdbcType=TIMESTAMP}, #{planenddate,jdbcType=TIMESTAMP}, #{realstartdate,jdbcType=TIMESTAMP}, 
+      #{realenddate,jdbcType=TIMESTAMP}, #{builddays,jdbcType=INTEGER}, #{construction,jdbcType=VARCHAR}, 
+      #{planlandussm,jdbcType=REAL}, #{planlanddate,jdbcType=TIMESTAMP}, #{amuserid,jdbcType=VARCHAR}, 
+      #{telephone,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{cooper,jdbcType=VARCHAR}, #{ordernum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gsccs.cmcc.info.model.IctprojectT" >
+    insert into xxbs_ictproject
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="corpname != null" >
+        corpname,
+      </if>
+      <if test="ispcode != null" >
+        ispcode,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="brief != null" >
+        brief,
+      </if>
+      <if test="buildcontent != null" >
+        buildcontent,
+      </if>
+      <if test="ussm != null" >
+        ussm,
+      </if>
+      <if test="winnindate != null" >
+        winnindate,
+      </if>
+      <if test="signdate != null" >
+        signdate,
+      </if>
+      <if test="planstartdate != null" >
+        planstartdate,
+      </if>
+      <if test="planenddate != null" >
+        planenddate,
+      </if>
+      <if test="realstartdate != null" >
+        realstartdate,
+      </if>
+      <if test="realenddate != null" >
+        realenddate,
+      </if>
+      <if test="builddays != null" >
+        builddays,
+      </if>
+      <if test="construction != null" >
+        construction,
+      </if>
+      <if test="planlandussm != null" >
+        planlandussm,
+      </if>
+      <if test="planlanddate != null" >
+        planlanddate,
+      </if>
+      <if test="amuserid != null" >
+        amuserid,
+      </if>
+      <if test="telephone != null" >
+        telephone,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="cooper != null" >
+        cooper,
+      </if>
+      <if test="ordernum != null" >
+        ordernum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="corpname != null" >
+        #{corpname,jdbcType=VARCHAR},
+      </if>
+      <if test="ispcode != null" >
+        #{ispcode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="brief != null" >
+        #{brief,jdbcType=VARCHAR},
+      </if>
+      <if test="buildcontent != null" >
+        #{buildcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="ussm != null" >
+        #{ussm,jdbcType=REAL},
+      </if>
+      <if test="winnindate != null" >
+        #{winnindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signdate != null" >
+        #{signdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planstartdate != null" >
+        #{planstartdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planenddate != null" >
+        #{planenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realstartdate != null" >
+        #{realstartdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realenddate != null" >
+        #{realenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="builddays != null" >
+        #{builddays,jdbcType=INTEGER},
+      </if>
+      <if test="construction != null" >
+        #{construction,jdbcType=VARCHAR},
+      </if>
+      <if test="planlandussm != null" >
+        #{planlandussm,jdbcType=REAL},
+      </if>
+      <if test="planlanddate != null" >
+        #{planlanddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="amuserid != null" >
+        #{amuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="cooper != null" >
+        #{cooper,jdbcType=VARCHAR},
+      </if>
+      <if test="ordernum != null" >
+        #{ordernum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gsccs.cmcc.info.model.IctprojectTExample" resultType="java.lang.Integer" >
+    select count(*) from xxbs_ictproject
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update xxbs_ictproject
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.corpname != null" >
+        corpname = #{record.corpname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ispcode != null" >
+        ispcode = #{record.ispcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brief != null" >
+        brief = #{record.brief,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buildcontent != null" >
+        buildcontent = #{record.buildcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ussm != null" >
+        ussm = #{record.ussm,jdbcType=REAL},
+      </if>
+      <if test="record.winnindate != null" >
+        winnindate = #{record.winnindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.signdate != null" >
+        signdate = #{record.signdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.planstartdate != null" >
+        planstartdate = #{record.planstartdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.planenddate != null" >
+        planenddate = #{record.planenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.realstartdate != null" >
+        realstartdate = #{record.realstartdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.realenddate != null" >
+        realenddate = #{record.realenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.builddays != null" >
+        builddays = #{record.builddays,jdbcType=INTEGER},
+      </if>
+      <if test="record.construction != null" >
+        construction = #{record.construction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planlandussm != null" >
+        planlandussm = #{record.planlandussm,jdbcType=REAL},
+      </if>
+      <if test="record.planlanddate != null" >
+        planlanddate = #{record.planlanddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.amuserid != null" >
+        amuserid = #{record.amuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telephone != null" >
+        telephone = #{record.telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cooper != null" >
+        cooper = #{record.cooper,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ordernum != null" >
+        ordernum = #{record.ordernum,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update xxbs_ictproject
+    set id = #{record.id,jdbcType=VARCHAR},
+      corpname = #{record.corpname,jdbcType=VARCHAR},
+      ispcode = #{record.ispcode,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      brief = #{record.brief,jdbcType=VARCHAR},
+      buildcontent = #{record.buildcontent,jdbcType=VARCHAR},
+      ussm = #{record.ussm,jdbcType=REAL},
+      winnindate = #{record.winnindate,jdbcType=TIMESTAMP},
+      signdate = #{record.signdate,jdbcType=TIMESTAMP},
+      planstartdate = #{record.planstartdate,jdbcType=TIMESTAMP},
+      planenddate = #{record.planenddate,jdbcType=TIMESTAMP},
+      realstartdate = #{record.realstartdate,jdbcType=TIMESTAMP},
+      realenddate = #{record.realenddate,jdbcType=TIMESTAMP},
+      builddays = #{record.builddays,jdbcType=INTEGER},
+      construction = #{record.construction,jdbcType=VARCHAR},
+      planlandussm = #{record.planlandussm,jdbcType=REAL},
+      planlanddate = #{record.planlanddate,jdbcType=TIMESTAMP},
+      amuserid = #{record.amuserid,jdbcType=VARCHAR},
+      telephone = #{record.telephone,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      cooper = #{record.cooper,jdbcType=VARCHAR},
+      ordernum = #{record.ordernum,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gsccs.cmcc.info.model.IctprojectT" >
+    update xxbs_ictproject
+    <set >
+      <if test="corpname != null" >
+        corpname = #{corpname,jdbcType=VARCHAR},
+      </if>
+      <if test="ispcode != null" >
+        ispcode = #{ispcode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="brief != null" >
+        brief = #{brief,jdbcType=VARCHAR},
+      </if>
+      <if test="buildcontent != null" >
+        buildcontent = #{buildcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="ussm != null" >
+        ussm = #{ussm,jdbcType=REAL},
+      </if>
+      <if test="winnindate != null" >
+        winnindate = #{winnindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signdate != null" >
+        signdate = #{signdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planstartdate != null" >
+        planstartdate = #{planstartdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planenddate != null" >
+        planenddate = #{planenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realstartdate != null" >
+        realstartdate = #{realstartdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realenddate != null" >
+        realenddate = #{realenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="builddays != null" >
+        builddays = #{builddays,jdbcType=INTEGER},
+      </if>
+      <if test="construction != null" >
+        construction = #{construction,jdbcType=VARCHAR},
+      </if>
+      <if test="planlandussm != null" >
+        planlandussm = #{planlandussm,jdbcType=REAL},
+      </if>
+      <if test="planlanddate != null" >
+        planlanddate = #{planlanddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="amuserid != null" >
+        amuserid = #{amuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="cooper != null" >
+        cooper = #{cooper,jdbcType=VARCHAR},
+      </if>
+      <if test="ordernum != null" >
+        ordernum = #{ordernum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gsccs.cmcc.info.model.IctprojectT" >
+    update xxbs_ictproject
+    set corpname = #{corpname,jdbcType=VARCHAR},
+      ispcode = #{ispcode,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      brief = #{brief,jdbcType=VARCHAR},
+      buildcontent = #{buildcontent,jdbcType=VARCHAR},
+      ussm = #{ussm,jdbcType=REAL},
+      winnindate = #{winnindate,jdbcType=TIMESTAMP},
+      signdate = #{signdate,jdbcType=TIMESTAMP},
+      planstartdate = #{planstartdate,jdbcType=TIMESTAMP},
+      planenddate = #{planenddate,jdbcType=TIMESTAMP},
+      realstartdate = #{realstartdate,jdbcType=TIMESTAMP},
+      realenddate = #{realenddate,jdbcType=TIMESTAMP},
+      builddays = #{builddays,jdbcType=INTEGER},
+      construction = #{construction,jdbcType=VARCHAR},
+      planlandussm = #{planlandussm,jdbcType=REAL},
+      planlanddate = #{planlanddate,jdbcType=TIMESTAMP},
+      amuserid = #{amuserid,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      cooper = #{cooper,jdbcType=VARCHAR},
+      ordernum = #{ordernum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
